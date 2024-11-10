@@ -1,0 +1,101 @@
+
+import java.util.Scanner;
+import javax.swing.JOptionPane;
+
+public class NewClass {
+    public static void main(String[] args) {
+        JOptionPane.showMessageDialog(null, "Hey there! Welcome to Ysa's Gadget Store!");
+        Scanner scanner = new Scanner(System.in);
+        
+        String productName = "";
+        double price = 0;
+        int totalPurchases = 0;  
+        
+        String[] products = {
+            "iPhone 11 - $18000.00", 
+            "iPhone 12 - $26000.00",
+            "iPhone 13 - $32999.00",
+            "iPhone 14 - $44599.00",
+            "iPhone 15 - $55789.00",
+            "iPhone 16 - $79999.00"
+        };
+        
+        double[] prices = {18000.00, 26000.00, 32999.00, 44599.00, 55789.00, 79999.00};
+        
+        String continueShopping;
+        
+        do { 
+            double total = 0;
+            String choice;
+            StringBuilder purchaseSummary = new StringBuilder();  
+            
+            do {
+                String sell = JOptionPane.showInputDialog(null, "\nHere are what's in store for you:\n1. iPhone 11 - $18000.00 \n2. iPhone 12 - $26000.00\n3. iPhone 13 - $32999.00\n4. iPhone 14 - $44599.00\n5. iPhone 15 - $55789.00\n6. iPhone 16 - $79999.00\n\nPlease enter the product number you want to purchase (one product only):");
+                
+                try {
+                    int select = Integer.parseInt(sell);
+                    if (select >= 1 && select <= products.length) {
+                        productName = products[select - 1].split(" - ")[0]; 
+                        price = prices[select - 1];
+                        
+                        String quan = JOptionPane.showInputDialog("How many of " + productName + " do you want to buy?: ");
+                        int quantity = Integer.parseInt(quan);
+                        
+                        double productTotal = price * quantity;
+                        total += productTotal;
+                        totalPurchases += quantity;  
+                        
+                        purchaseSummary.append(quantity).append(" x ").append(productName).append("\n");
+                        
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Invalid product number :< please try again!");
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Please enter a valid number.");
+                }
+                
+                choice = JOptionPane.showInputDialog("Do you want to add another product? (yes/no): ");
+                
+            } while (choice.equalsIgnoreCase("yes"));
+            
+           
+            String summaryMessage = "\nYour cart:\n\n" + purchaseSummary.toString() +
+                                     "\nTotal price of product/s: $" + String.format("%.2f", total) + "\n" +
+                                    "\nTotal number of purchases: " + totalPurchases;
+            JOptionPane.showMessageDialog(null, summaryMessage);
+            
+            
+            String paymentInput = JOptionPane.showInputDialog("Please enter your payment amount: ");
+            try {
+                double payment = Double.parseDouble(paymentInput);
+                
+                if (payment >= total) {
+                    double change = payment - total;
+                    JOptionPane.showMessageDialog(null, "Thank you for your purchase! Your change is: $" + String.format("%.2f", change));
+                } else {
+                    JOptionPane.showMessageDialog(null, "Insufficient funds! You need an additional $" + String.format("%.2f", total - payment));
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Invalid input for payment. Please enter a numeric value.");
+            }
+
+            continueShopping = JOptionPane.showInputDialog("\nDo you want to start a new purchase? (yes/no): ");
+            
+        } while (continueShopping.equalsIgnoreCase("yes"));
+        
+        JOptionPane.showMessageDialog(null, "COngratulations on your purchase! Thank you for shopping at Ysa's, please come again!");
+    }
+}
+
+
+           
+       
+
+
+
+        
+
+
+
+
+
